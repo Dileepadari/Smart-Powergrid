@@ -3,9 +3,10 @@ class Database
 {
 
 	private $host = "localhost";
-	private $username = "id20700254_delhi";
-	private $password = "Delhiking@143";
-	private $db = "id20700254_smart_database";
+	private $username = "root";
+	private $password = "";
+	private $db = "Smart_power_grid";
+
 
 	function connect()
 	{
