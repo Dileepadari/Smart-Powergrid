@@ -31,10 +31,5 @@
   <script src="js/core/jquery.min.js"></script>
   <script src="js/core/popper.min.js"></script>
   <script src="js/core/bootstrap.min.js"></script>
-   <script src="js/plugins/chartjs.min.js"></script>
+  <script src="js/paper-dashboard.js"></script>
   <script src="js/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      demo.initChartsPages();
-    });
-  </script>

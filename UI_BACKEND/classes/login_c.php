@@ -24,19 +24,12 @@ class Login
 			
 			// if($this->hash_text($password) == $row['password'])
 			if($password == $row['password'])
-
 			{
 				
 				//create session data
 				$_SESSION['IOT_userid'] = $row['userid'];
-				
-				
-				
-
 			}else
 			{
-                print_r($row);
-                die;
 				$this->error .= "wrong email or password<br>";
 			}
 		}else
@@ -55,16 +48,13 @@ class Login
 		return $text;
 	}
 
-	public function check_login($id,$redirect = 1)
+	public function check_login($userid,$redirect = 1)
 	{
 		if(is_numeric($userid))
-		{
-          
+		{			
 			$query = "select * from Users where userid = '$userid' limit 1 ";
-
 			$DB = new Database();
 			$result = $DB->read($query);
-
 			if($result)
 			{
 

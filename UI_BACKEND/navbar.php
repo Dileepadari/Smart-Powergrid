@@ -8,7 +8,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Smart&nbsp;Management</a>
+            <a class="navbar-brand" href="index.php">Welcome <?php print_r($user_data['username']) ?></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -28,7 +28,7 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link btn-magnify" href="#pablo">
+                <a class="nav-link btn-magnify" href="statistics.php">
                   <i class="nc-icon nc-layout-11"></i>
                   <p>
                     <span class="d-lg-none d-md-block"> </span>
@@ -43,9 +43,19 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Humidity is more than the usual limit</a>
-                  <a class="dropdown-item" href="#">Temperature is freezing</a>
-                  <a class="dropdown-item" href="#">show more...</a>
+                <?php
+                    $query = "SELECT * FROM Notifications where userid = '$_SESSION[IOT_userid]' AND seen = 0  ORDER BY id DESC LIMIT 4";  
+                    $database = new Database();
+                    $notifications = $database->read($query);
+                ?>
+                <?php
+                      foreach ($notifications as $key => $value) {
+                          echo '<a class="dropdown-item" href="#">';
+                          print_r($value['notification_msg']);
+                          echo "</a>";
+                      }
+                ?>
+                  <a class="dropdown-item" href="notifications.php">show more...</a>
                 </div>
               </li>
               <li class="nav-item">

@@ -1,3 +1,5 @@
+
+
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="images/aa.jpeg">
@@ -10,7 +12,12 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <link href="styles/bootstrap.min.css" rel="stylesheet" />
-  <link href="styles/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <link href="styles/paper-dashboard.css?v=2.0.0" rel="stylesheet" />  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <style>
+    .main-panel{
+      min-height: 100vh;
+    }
+  </style>
 </head>
 
 <body class="">
@@ -53,26 +60,26 @@
               <p>Notifications</p>
             </a>
           </li>
-          <li id="">
-            <a href="tables.html">
+          <li id="statistics">
+            <a href="statistics.php">
               <i class="nc-icon nc-tile-56"></i>
               <p>Statistics</p>
             </a>
           </li>
-          <li>
-            <a href="typography.html">
+          <li class="extra">
+            <a href="extra.php">
               <i class="nc-icon nc-air-baloon"></i>
               <p>Extra-feauture</p>
             </a>
           </li>
-          <li>
-            <a href="typography.html">
+          <li class="settings">
+            <a href="settings.php">
               <i class="nc-icon nc-settings"></i>
               <p>settings</p>
             </a>
           </li>
-          <li>
-            <a href="user.html">
+          <li class="user">
+            <a href="user.php">
               <i class="nc-icon nc-single-02"></i>
               <p>User Profile</p>
             </a>
