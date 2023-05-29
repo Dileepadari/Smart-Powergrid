@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="login.css">
+  <title>Login Page</title>
+</head>
+<body class="back" style="background-image: url('bg5.jpg')">
+  <header>
+    <nav>
+      <div class="container2">
+        <h1>Smart Energy Grid Failure Management</h1>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <form class="login-form">
+        <h1>Login</h1>
+        <input type="text" placeholder="Username" required>
+        <input type="password" placeholder="Password" required>
+        <div class="radio-group">
+            <input type="radio" id="admin" name="user-type" value="admin">
+            <label for="admin">Admin</label>
+            <input type="radio" id="resident" name="user-type" value="resident" checked>
+            <label for="resident">Resident</label>
+          </div>
+          
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container2">
+      <p>&copy; 2023 Smart Energy Grid Failure Management.</p>
+      <p>All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
