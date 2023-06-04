@@ -5,11 +5,11 @@ class CurrentSensor
 {
   private:
     int inputPin;
+    int basePin;
     float base_voltage;
-    char* APIKey;
   public:
-    CurrentSensor(int CurrentPin);
-    float getBaseValue(int base_pin);
+    CurrentSensor(int CurrentPin,int BasePin);
     float getValueinA();
+    float updateBaseValue();
 };
 #endif
