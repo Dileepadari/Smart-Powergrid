@@ -1,0 +1,17 @@
+<html lang="en">
+{% include "header.html" %}
+<head>
+    <link rel="stylesheet" type="text/css" href="styles/health.css">
+</head>
+<div class="main-panel">
+{% include "navbar.html" %}
+    <h1 style="margin-top: 100px;">Statistics of Components</h1>
+    <div id="healthDataContainer">
+    
+    </div>
+{% include "footer.html" %}
+</div>
+<script>
+        var element = document.getElementById("statistics");
+        element.classList.add("active");
+</script>

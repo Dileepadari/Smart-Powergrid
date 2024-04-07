@@ -1,0 +1,46 @@
+h1 {
+    text-align: center;
+}
+
+#healthDataContainer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.healthData {
+    width: 35vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+.healthData .component {
+    font-weight: bold;
+}
+
+.healthData .time {
+    color: #888;
+}
+
+.healthData .status {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.healthData .element {
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 800px) {
+    #healthDataContainer{
+        max-width: 100%;
+        margin: 10px;
+        padding: 10px;
+    }
+} 
+
+
+
