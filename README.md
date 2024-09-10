@@ -7,7 +7,7 @@ contact:
 
 
 The website we hosted our web in:
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://smart-grid-1007.000webhostapp.com/">smart-powergrid.000webhostapp.com</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://smart-grid-1007.000webhostapp.com/">smart-grid-1007.000webhostapp.com</a>
 
 LoginInfo:
 &nbsp;&nbsp;&nbsp;&nbsp;username: Resident1@students.iiit.ac.in
