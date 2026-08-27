@@ -1,0 +1,78 @@
+{% from "partials/icons.html" import icon %}
+{% macro appliance_card(a, readonly=false) %}
+<article class="card appliance {{ 'is-on' if a.is_on }}" data-appliance="{{ a.name }}">
+  <header class="appliance__head">
+    <span class="appliance__icon">{{ icon(a.icon) }}</span>
+    <span class="appliance__title">
+      <h3>{{ a.label }}</h3>
+      <span>{{ a.kind_label }}</span>
+    </span>
+    {% if a.health %}
+      <span class="badge badge--{{ a.health_status }}" data-role="health-badge">
+        {{ icon('check-circle' if a.health == 3 else ('alert-circle' if a.health == 2 else 'alert')) }}
+        {{ a.health_label }}
+      </span>
+    {% endif %}
+  </header>
+
+  <div class="appliance__body">
+    <dl class="readout">
+      <div class="readout__item">
+        <dt>Power</dt>
+        <dd data-role="power-label">{{ a.power_label }}</dd>
+      </div>
+      {% if 'speed' in a.capabilities %}
+        <div class="readout__item">
+          <dt>Speed</dt>
+          <dd data-role="speed-label">{{ a.speed_label }}</dd>
+        </div>
+      {% endif %}
+      {% if 'direction' in a.capabilities %}
+        <div class="readout__item">
+          <dt>Direction</dt>
+          <dd data-role="direction-label">{{ a.direction_label }}</dd>
+        </div>
+      {% endif %}
+      <div class="readout__group" data-role="readings">
+        {% for reading in a.readings %}
+          <div class="readout__item">
+            <dt>{{ 'Temp' if reading.metric == 'temperature' else 'Current' }}</dt>
+            <dd>{{ '%g' | format(reading.value) }}<span class="unit small muted">{{ ' °C' if reading.metric == 'temperature' else ' mA' }}</span></dd>
+          </div>
+        {% endfor %}
+      </div>
+    </dl>
+
+    {% if not readonly %}
+      <div class="control">
+        <span class="control__label" id="{{ a.name }}-power-label">Power</span>
+        <div class="segmented" role="group" aria-labelledby="{{ a.name }}-power-label" data-control="power">
+          <button type="button" data-value="0" aria-pressed="{{ 'true' if a.power == 0 else 'false' }}">Off</button>
+          <button type="button" data-value="1" aria-pressed="{{ 'true' if a.power == 1 else 'false' }}">On</button>
+        </div>
+      </div>
+
+      {% if 'speed' in a.capabilities %}
+        <div class="control">
+          <span class="control__label" id="{{ a.name }}-speed-label">{{ 'Brightness' if a.kind == 'led' else 'Speed' }}</span>
+          <div class="segmented" role="group" aria-labelledby="{{ a.name }}-speed-label" data-control="speed">
+            {% for value, label in [(0, 'Low'), (1, 'Medium'), (2, 'High')] %}
+              <button type="button" data-value="{{ value }}" aria-pressed="{{ 'true' if a.speed == value else 'false' }}">{{ label }}</button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if 'direction' in a.capabilities %}
+        <div class="control">
+          <span class="control__label" id="{{ a.name }}-direction-label">Direction</span>
+          <div class="segmented" role="group" aria-labelledby="{{ a.name }}-direction-label" data-control="direction">
+            <button type="button" data-value="0" aria-pressed="{{ 'true' if a.direction == 0 else 'false' }}">Clockwise</button>
+            <button type="button" data-value="1" aria-pressed="{{ 'true' if a.direction == 1 else 'false' }}">Anticlockwise</button>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+{% endmacro %}

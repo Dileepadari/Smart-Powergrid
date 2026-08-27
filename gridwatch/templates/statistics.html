@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% from "partials/source_badge.html" import source_badge %}
+
+{% block title %}Statistics - GridWatch{% endblock %}
+{% block heading %}Statistics{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Current draw over time</h1>
+    <p>The most recent readings for every appliance on channel {{ snapshot.channel.get('id') or 'not configured' }}.</p>
+  </div>
+  <div class="row">{{ source_badge(snapshot) }}</div>
+</div>
+
+{% if snapshot.appliances %}
+<section class="card" style="margin-bottom:16px">
+  <header class="card__head">
+    <h2>All appliances</h2>
+    <span class="badge">milliamps</span>
+  </header>
+  <div class="card__body">
+    <div class="chart-frame chart-frame--tall">
+      <canvas id="series-chart" aria-label="Line chart of current draw per appliance over time" role="img"></canvas>
+    </div>
+  </div>
+  <footer class="card__foot">Hover a point to compare every appliance at that moment.</footer>
+</section>
+
+<section class="card">
+  <header class="card__head"><h2>Latest values</h2></header>
+  <div class="table-wrap">
+    <table class="data">
+      <caption class="visually-hidden">Latest, minimum, maximum and mean current draw per appliance</caption>
+      <thead>
+        <tr>
+          <th scope="col">Appliance</th><th scope="col">State</th>
+          <th scope="col">Latest</th><th scope="col">Min</th><th scope="col">Max</th><th scope="col">Mean</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in snapshot.appliances %}
+          {% set points = series.get(a.name, []) | map(attribute='v') | reject('none') | list %}
+          <tr>
+            <th scope="row">
+              <span class="row" style="gap:7px">
+                <span class="legend__swatch" style="background:var(--series-{{ loop.index0 % 6 + 1 }})"></span>{{ a.label }}
+              </span>
+            </th>
+            <td><span class="badge {{ 'badge--good' if a.is_on }}">{{ a.power_label }}</span></td>
+            {% if points %}
+              <td class="num">{{ '%.1f' | format(points[-1]) }} mA</td>
+              <td class="num">{{ '%.1f' | format(points | min) }} mA</td>
+              <td class="num">{{ '%.1f' | format(points | max) }} mA</td>
+              <td class="num">{{ '%.1f' | format(points | sum / points | length) }} mA</td>
+            {% else %}
+              <td class="num muted" colspan="4">No readings</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% else %}
+  <div class="card"><div class="empty">{{ icon('chart') }}<h3>No series to plot</h3>
+    <p>Configure a ThingSpeak channel on your profile to start collecting readings.</p></div></div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script id="series-data" type="application/json">{{ series | tojson }}</script>
+<script id="appliance-data" type="application/json">{{ data | tojson }}</script>
+<script>GridWatch.seriesChart('series-chart', 'series-data', 'appliance-data');</script>
+{% endblock %}

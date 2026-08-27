@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}GridWatch{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-mark.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script>
+    try {
+      var t = localStorage.getItem('gridwatch-theme');
+      if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+  <style>.auth__aside { --auth-image: url("{{ url_for('static', filename='img/login-bg.jpg') }}"); }</style>
+</head>
+<body data-csrf="{{ csrf_token() }}">
+{% from "partials/icons.html" import icon %}
+<div class="auth">
+  <div class="auth__panel">
+    <div class="auth__card">
+      <a class="auth__brand" href="{{ url_for('auth.login') }}">
+        <span class="logo-badge"><img class="logo-mono" src="{{ url_for('static', filename='img/logo-mark.png') }}" alt=""></span>
+        GridWatch
+      </a>
+      {% include "partials/flashes.html" %}
+      {% block form %}{% endblock %}
+    </div>
+  </div>
+
+  <aside class="auth__aside">
+    <div>
+      <h2>Keep the grid up when a circuit goes down</h2>
+      <p>GridWatch watches every appliance on the rig, scores its condition and lets you switch it from anywhere.</p>
+      <ul>
+        <li>{{ icon('check') }}<span>Live appliance state from ThingSpeak, with a cached fallback.</span></li>
+        <li>{{ icon('check') }}<span>Health scores and power-theft alerts raised automatically.</span></li>
+        <li>{{ icon('check') }}<span>Commands delivered to the OM2M gateway and the channel.</span></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

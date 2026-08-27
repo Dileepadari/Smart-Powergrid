@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Profile - GridWatch{% endblock %}
+{% block heading %}Profile{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>{{ user['username'] }}</h1>
+    <p>{{ user['email'] }}</p>
+  </div>
+  <span class="badge badge--accent">{{ icon('shield') }}{{ user['role'] | capitalize }}</span>
+</div>
+
+<div class="grid grid--halves">
+  <section class="card">
+    <header class="card__head">{{ icon('bolt') }}<h2>Channel and appliances</h2></header>
+    <form class="card__body" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="action" value="channel">
+
+      <div class="form-row">
+        <div class="field">
+          <label for="channel_id">ThingSpeak channel ID</label>
+          <input class="input" id="channel_id" name="channel_id" value="{{ user['channel_id'] or '' }}" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="status_field">Status field number</label>
+          <input class="input" id="status_field" name="status_field" type="number" min="1" max="8" value="{{ user['status_field'] }}">
+          <span class="hint">Health is read from the next field up.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="read_api_key">Read API key</label>
+          <input class="input" id="read_api_key" name="read_api_key" value="{{ user['read_api_key'] or '' }}" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="write_api_key">Write API key</label>
+          <input class="input" id="write_api_key" name="write_api_key" value="{{ user['write_api_key'] or '' }}" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="priority">Appliances, in load-shedding order</label>
+        <input class="input" id="priority" name="priority" value="{{ user['priority'] }}" placeholder="Motor_1, Motor_2, LED_1">
+        <span class="hint">Used when the channel description is unavailable. Most important first.</span>
+      </div>
+
+      <button class="btn btn--primary" type="submit">{{ icon('check') }}Save settings</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <header class="card__head">{{ icon('key') }}<h2>Change password</h2></header>
+    <form class="card__body" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="action" value="password">
+      <div class="field">
+        <label for="current_password">Current password</label>
+        <input class="input" id="current_password" name="current_password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="field">
+        <label for="new_password">New password</label>
+        <input class="input" id="new_password" name="new_password" type="password" autocomplete="new-password" minlength="8" required>
+        <span class="hint">At least 8 characters.</span>
+      </div>
+      <div class="field">
+        <label for="confirm_password">Confirm new password</label>
+        <input class="input" id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" minlength="8" required>
+      </div>
+      <button class="btn btn--primary" type="submit">{{ icon('key') }}Update password</button>
+    </form>
+  </section>
+</div>
+
+<section class="card" style="margin-top:16px">
+  <header class="card__head">{{ icon('clock') }}<h2>Recent commands</h2></header>
+  <div class="table-wrap">
+    <table class="data">
+      <caption class="visually-hidden">The last ten control commands sent from this account</caption>
+      <thead><tr><th scope="col">When</th><th scope="col">Appliance</th><th scope="col">Change</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+        {% for c in commands %}
+          {% set payload = c['payload'] | fromjson %}
+          <tr>
+            <td>{{ c['created_at'] }}</td>
+            <td>{{ c['appliance'] | appliance }}</td>
+            <td class="muted">{{ control_label(payload.control, payload.value) }}</td>
+            <td>
+              <span class="badge {{ 'badge--good' if c['ok'] else 'badge--warning' }}">
+                {{ 'Delivered' if c['ok'] else 'Not delivered' }}
+              </span>
+              <span class="muted small">{{ c['detail'] }}</span>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4" class="muted">No commands sent yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

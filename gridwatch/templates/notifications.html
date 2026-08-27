@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Notifications - GridWatch{% endblock %}
+{% block heading %}Notifications{% endblock %}
+
+{% block topbar_extra %}
+  {% if notifications %}
+  <form method="post" action="{{ url_for('main.read_all_notifications') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="btn btn--sm" type="submit">{{ icon('check') }}Mark all read</button>
+  </form>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Alerts from your grid</h1>
+    <p>Raised automatically when an appliance drifts from its rated draw or draws power while switched off.</p>
+  </div>
+  {% if unseen_notifications %}
+    <span class="badge badge--critical">{{ icon('bell') }}{{ unseen_notifications }} unread</span>
+  {% endif %}
+</div>
+
+{% if notifications %}
+  <div class="stack">
+    {% for n in notifications %}
+      <article class="note note--{{ n['severity'] }} {{ 'is-seen' if n['seen'] }}">
+        <span class="note__icon">
+          {{ icon('alert' if n['severity'] == 'critical' else ('alert-circle' if n['severity'] == 'warning' else 'info')) }}
+        </span>
+        <div class="note__body">
+          <div class="note__meta">
+            <strong>{{ n['appliance'] | appliance if n['appliance'] else 'Grid' }}</strong>
+            <span>{{ n['created_at'] }}</span>
+            <span class="badge badge--{{ 'critical' if n['severity'] == 'critical' else ('warning' if n['severity'] == 'warning' else 'accent') }}">{{ n['severity'] | capitalize }}</span>
+          </div>
+          <p>{{ n['message'] }}</p>
+        </div>
+        <div class="note__actions">
+          <form method="post" action="{{ url_for('main.toggle_notification', notification_id=n['id']) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn--sm btn--ghost" type="submit">{{ 'Mark unread' if n['seen'] else 'Mark read' }}</button>
+          </form>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card"><div class="empty">{{ icon('inbox') }}<h3>Nothing needs your attention</h3>
+    <p>Alerts appear here as soon as the grid reports a fault.</p></div></div>
+{% endif %}
+{% endblock %}

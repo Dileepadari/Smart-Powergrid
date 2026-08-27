@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Page not found - GridWatch{% endblock %}
+{% block heading %}404{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="empty">
+    {{ icon('alert-circle') }}
+    <h3>Page not found</h3>
+    <p>That page does not exist, or it has moved.</p>
+    <a class="btn btn--primary" href="{{ url_for('main.dashboard') }}">Back to the dashboard</a>
+  </div>
+</div>
+{% endblock %}

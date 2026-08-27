@@ -1,0 +1,52 @@
+{% from "partials/icons.html" import icon %}
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar__brand" href="{{ url_for('main.dashboard') }}">
+    <span class="logo-badge">
+      <img class="logo-mono" src="{{ url_for('static', filename='img/logo-mark.png') }}" alt="">
+    </span>
+    <span>GridWatch<small>Smart energy grid</small></span>
+  </a>
+
+  <nav class="sidebar__nav" aria-label="Main">
+    <a class="nav-link {{ 'is-active' if page == 'dashboard' }}" href="{{ url_for('main.dashboard') }}">
+      {{ icon('dashboard') }}<span>Dashboard</span>
+    </a>
+    <a class="nav-link {{ 'is-active' if page == 'health' }}" href="{{ url_for('main.health') }}">
+      {{ icon('heart') }}<span>Health</span>
+    </a>
+    <a class="nav-link {{ 'is-active' if page == 'statistics' }}" href="{{ url_for('main.statistics') }}">
+      {{ icon('chart') }}<span>Statistics</span>
+    </a>
+    <a class="nav-link {{ 'is-active' if page == 'circuits' }}" href="{{ url_for('main.circuits') }}">
+      {{ icon('circuit') }}<span>Circuits</span>
+    </a>
+    <a class="nav-link {{ 'is-active' if page == 'notifications' }}" href="{{ url_for('main.notifications') }}">
+      {{ icon('bell') }}<span>Notifications</span>
+      {% if unseen_notifications %}<span class="count" data-unseen-count>{{ unseen_notifications }}</span>{% endif %}
+    </a>
+
+    {% if user and user['role'] == 'admin' %}
+      <div class="sidebar__section">Administration</div>
+      <a class="nav-link {{ 'is-active' if page == 'admin' }}" href="{{ url_for('main.admin') }}">
+        {{ icon('users') }}<span>Residents</span>
+      </a>
+    {% endif %}
+
+    <div class="sidebar__section">Account</div>
+    <a class="nav-link {{ 'is-active' if page == 'profile' }}" href="{{ url_for('main.profile') }}">
+      {{ icon('user') }}<span>Profile</span>
+    </a>
+    <a class="nav-link {{ 'is-active' if page == 'about' }}" href="{{ url_for('main.about') }}">
+      {{ icon('info') }}<span>About</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__footer">
+    <form method="post" action="{{ url_for('auth.logout') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="nav-link" type="submit" style="width:100%;border:0;background:none;cursor:pointer;text-align:left">
+        {{ icon('logout') }}<span>Sign out {{ user['username'] if user }}</span>
+      </button>
+    </form>
+  </div>
+</aside>

@@ -1,0 +1,22 @@
+{% from "partials/icons.html" import icon %}
+{% macro source_badge(snapshot) %}
+  {% if snapshot.online %}
+    <span class="badge badge--good" title="Appliance state read from ThingSpeak">
+      <span class="dot dot--live"></span>Live
+    </span>
+  {% else %}
+    <span class="badge" title="ThingSpeak did not return a status, showing the last state this app recorded">
+      {{ icon('wifi-off') }}Cached
+    </span>
+  {% endif %}
+  {% if snapshot.simulated %}
+    <span class="badge badge--accent" title="The rig has not published readings recently, so sensor values and health scores are simulated">
+      {{ icon('flask') }}Simulated readings
+    </span>
+  {% endif %}
+  {% if snapshot.om2m_online %}
+    <span class="badge badge--good" title="The OM2M gateway is reachable">{{ icon('shield') }}OM2M</span>
+  {% else %}
+    <span class="badge" title="The OM2M gateway is not reachable, commands go to ThingSpeak only">{{ icon('shield') }}OM2M offline</span>
+  {% endif %}
+{% endmacro %}

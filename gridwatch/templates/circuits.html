@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Circuits - GridWatch{% endblock %}
+{% block heading %}Circuits{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Circuit layout</h1>
+    <p>What the rig is made of and how it sits inside a wider grid.</p>
+  </div>
+</div>
+
+<div class="grid grid--halves">
+  <section class="card">
+    <header class="card__head"><h2>Smart grid overview</h2></header>
+    <div class="card__body">
+      <div class="frame">
+        <img src="{{ url_for('static', filename='img/circuit-diagram.jpeg') }}"
+             alt="Illustration of a smart grid: homes, wind and solar generation, storage and a grid controller connected by distribution lines">
+      </div>
+    </div>
+    <footer class="card__foot">A reference illustration of the wider system this rig models, not the rig's own wiring.</footer>
+  </section>
+
+  <section class="card">
+    <header class="card__head"><h2>Nodes on this circuit</h2></header>
+    <div class="table-wrap">
+      <table class="data">
+        <caption class="visually-hidden">Appliances wired to this circuit and the controller each one uses</caption>
+        <thead><tr><th scope="col">Appliance</th><th scope="col">Controller</th><th scope="col">Controls</th></tr></thead>
+        <tbody>
+          {% for a in snapshot.appliances %}
+            <tr>
+              <th scope="row"><span class="row" style="gap:8px">{{ icon(a.icon) }}{{ a.label }}</span></th>
+              <td>{{ {'motor': 'L298N driver + ACS712', 'led': 'Relay + potentiometer', 'buzzer': 'Relay module'}.get(a.kind, 'Relay module') }}</td>
+              <td class="muted">{{ a.capabilities | join(', ') }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="3" class="muted">No appliances configured.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <footer class="card__foot">
+      Firmware for each controller lives in <code>hardware/</code> in this repository.
+    </footer>
+  </section>
+</div>
+{% endblock %}
