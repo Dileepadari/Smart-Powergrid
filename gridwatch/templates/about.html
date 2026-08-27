@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}About - GridWatch{% endblock %}
+{% block heading %}About{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Smart energy grid failure management</h1>
+    <p>An automated grid that keeps power flowing to what matters when something fails.</p>
+  </div>
+</div>
+
+<div class="grid grid--halves">
+  <section class="card">
+    <header class="card__head">{{ icon('bolt') }}<h2>Motivation</h2></header>
+    <div class="card__body prose">
+      <p>Energy grids supply homes, businesses and industry, and they fail in ways that are slow to find and slower to fix.</p>
+      <ul>
+        <li>Restore power quickly after a disturbance.</li>
+        <li>Cut the cost of operating and managing the grid.</li>
+        <li>Keep critical infrastructure supplied while a fault is cleared.</li>
+        <li>Improve security and visibility across the whole circuit.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <header class="card__head">{{ icon('shield') }}<h2>How it works</h2></header>
+    <div class="card__body prose">
+      <ul>
+        <li>Appliances are assigned priorities, so load is shed from the bottom up.</li>
+        <li>Devices can be added, removed and reordered without touching the firmware.</li>
+        <li>Power is redirected around a failure rather than dropped.</li>
+        <li>Current and temperature sensors catch overheating, overloading and power theft.</li>
+        <li>This web app shows grid status and switches appliances remotely.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<section class="card" style="margin-top:16px">
+  <header class="card__head">{{ icon('circuit') }}<h2>What the rig is built from</h2></header>
+  <div class="card__body">
+    <div class="grid grid--cards">
+      <div class="prose">
+        <h3>Hardware</h3>
+        <ul>
+          <li>Relays switch current to each appliance.</li>
+          <li>Potentiometers set the voltage difference between grid preferences.</li>
+          <li>ACS712 current sensors measure draw on every branch.</li>
+          <li>DC motors, LEDs and buzzers stand in for household appliances.</li>
+        </ul>
+      </div>
+      <div class="prose">
+        <h3>Software</h3>
+        <ul>
+          <li>OM2M provides the oneM2M middleware the ESP boards subscribe to.</li>
+          <li>ThingSpeak collects readings and serves them back as JSON.</li>
+          <li>This Flask app reads both, and writes control commands to either.</li>
+          <li>Charts render locally from the same data the tables show.</li>
+        </ul>
+      </div>
+      <div class="prose">
+        <h3>Failure modes it catches</h3>
+        <ul>
+          <li>An appliance drawing power while switched off, which reads as theft.</li>
+          <li>Draw drifting away from the appliance's rated current.</li>
+          <li>Overheating on the motor branches.</li>
+          <li>A gateway or channel going quiet.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px">
+  <header class="card__head">{{ icon('users') }}<h2>The team</h2></header>
+  <div class="card__body">
+    <div class="row">
+      {% for name in ['Faisal', 'Samyak Mishra', 'Sujal Keshri', 'Jayanth', 'Ishan Gupta',
+                      'Dilip Adari', 'Ashish Bharadwaj', 'Swaroop', 'Karthikeya', 'Gadha'] %}
+        <span class="badge">{{ name }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

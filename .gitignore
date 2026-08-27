@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Application data
+instance/
+*.sqlite
+*.sqlite3
+
+# Node (only if tooling is ever added)
+node_modules/
+dist/
+build/
+
+# Logs and crash dumps
+*.log
+npm-debug.log*
+logs/
+
+# OS and editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.~lock.*#
+
+# Merge and patch leftovers
+*.orig
+*.rej
+*.bak

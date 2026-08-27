@@ -1,0 +1,37 @@
+{% extends "auth/base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Sign in - GridWatch{% endblock %}
+
+{% block form %}
+<h1>Sign in</h1>
+<p class="muted" style="margin:6px 0 22px">Use your resident or administrator account.</p>
+
+<form method="post" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="field">
+    <label for="email">Email address</label>
+    <input class="input" id="email" name="email" type="email" value="{{ email }}"
+           autocomplete="username" required autofocus placeholder="you@example.com">
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+  </div>
+  <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+</form>
+
+<p class="small muted" style="margin-top:16px">
+  No account yet? <a href="{{ url_for('auth.signup') }}">Create one</a>.
+</p>
+
+<div class="demo-creds">
+  <strong>Demo accounts</strong><br>
+  Resident: <code>Resident1@students.iiit.ac.in</code> / <code>password1</code><br>
+  Admin: <code>admin@students.iiit.ac.in</code> / <code>admin</code>
+  <br>
+  <button class="btn btn--sm" type="button" data-fill-demo
+          data-email="Resident1@students.iiit.ac.in" data-password="password1">
+    {{ icon('copy') }}Fill resident login
+  </button>
+</div>
+{% endblock %}

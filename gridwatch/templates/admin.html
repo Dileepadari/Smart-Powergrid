@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% from "partials/appliance_card.html" import appliance_card %}
+{% block title %}Residents - GridWatch{% endblock %}
+{% block heading %}Residents{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Every resident on the grid</h1>
+    <p>Read-only view of each account's appliances, health and open alerts.</p>
+  </div>
+  <span class="badge badge--accent">{{ icon('users') }}{{ overview | length }} residents</span>
+</div>
+
+<section class="card" style="margin-bottom:22px">
+  <div class="table-wrap">
+    <table class="data">
+      <caption class="visually-hidden">Summary of every resident account</caption>
+      <thead>
+        <tr>
+          <th scope="col">Resident</th><th scope="col">Channel</th><th scope="col">Appliances on</th>
+          <th scope="col">Total draw</th><th scope="col">Health</th><th scope="col">Unread alerts</th><th scope="col">Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in overview %}
+          <tr>
+            <th scope="row">{{ entry.resident['username'] }}</th>
+            <td class="num">{{ entry.resident['channel_id'] or '--' }}</td>
+            <td class="num">{{ entry.snapshot.active_count }} / {{ entry.snapshot.appliances | length }}</td>
+            <td class="num">{{ '%g' | format(entry.snapshot.total_current) }} mA</td>
+            <td>
+              {% if entry.snapshot.overall_health is not none %}
+                <span class="row" style="gap:6px">
+                  <span class="dot dot--{{ 'good' if entry.snapshot.overall_health >= 80 else ('warning' if entry.snapshot.overall_health >= 50 else 'critical') }}"></span>
+                  {{ entry.snapshot.overall_health }}%
+                </span>
+              {% else %}<span class="muted">--</span>{% endif %}
+            </td>
+            <td class="num">
+              {% if entry.unseen %}<span class="badge badge--critical">{{ entry.unseen }}</span>
+              {% else %}<span class="muted">0</span>{% endif %}
+            </td>
+            <td><span class="badge {{ 'badge--good' if entry.snapshot.online }}">{{ 'Live' if entry.snapshot.online else 'Cached' }}</span></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7" class="muted">No resident accounts yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% for entry in overview %}
+  <h2 style="margin:24px 0 12px">{{ entry.resident['username'] }}</h2>
+  {% if entry.snapshot.appliances %}
+    <div class="grid grid--cards">
+      {% for a in entry.snapshot.appliances %}{{ appliance_card(a, readonly=true) }}{% endfor %}
+    </div>
+  {% else %}
+    <div class="card"><div class="empty">{{ icon('plug') }}<p>No appliances configured.</p></div></div>
+  {% endif %}
+{% endfor %}
+{% endblock %}

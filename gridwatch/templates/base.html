@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}GridWatch{% endblock %}</title>
+  <meta name="description" content="GridWatch monitors and controls a smart energy grid rig: appliance state, health scores and failure alerts.">
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-mark.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-mark.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script>
+    // Apply the stored theme before first paint so the page never flashes.
+    try {
+      var t = localStorage.getItem('gridwatch-theme');
+      if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+<body data-csrf="{{ csrf_token() }}" data-poll="{{ poll_seconds }}">
+{% from "partials/icons.html" import icon %}
+{% block body %}
+<div class="shell">
+  {% include "partials/sidebar.html" %}
+  <div class="sidebar-scrim" data-nav-close hidden-aria></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="btn btn--ghost btn--icon nav-toggle" type="button" data-nav-toggle aria-label="Open navigation">
+        {{ icon('menu') }}
+      </button>
+      <span class="topbar__title">{% block heading %}{% endblock %}</span>
+      <div class="topbar__spacer"></div>
+      {% block topbar_extra %}{% endblock %}
+      <button class="btn btn--ghost btn--icon" type="button" data-theme-toggle aria-label="Switch between light and dark theme">
+        <span data-theme-icon="light">{{ icon('sun') }}</span>
+        <span data-theme-icon="dark" hidden>{{ icon('moon') }}</span>
+      </button>
+    </header>
+
+    <main class="content">
+      {% include "partials/flashes.html" %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+{% endblock %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

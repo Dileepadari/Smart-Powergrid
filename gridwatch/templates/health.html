@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% from "partials/source_badge.html" import source_badge %}
+
+{% block title %}Health - GridWatch{% endblock %}
+{% block heading %}Health monitoring{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Appliance health</h1>
+    <p>Each appliance reports a condition score the boards derive from its current draw against its rated draw.</p>
+  </div>
+  <div class="row">{{ source_badge(snapshot) }}</div>
+</div>
+
+{% if snapshot.appliances %}
+<div class="grid grid--halves">
+  <section class="card">
+    <header class="card__head">
+      <h2>Condition by appliance</h2>
+      <span class="badge">{{ snapshot.appliances | length }} appliances</span>
+    </header>
+    <div class="card__body">
+      <div class="chart-frame">
+        <canvas id="health-chart" aria-label="Bar chart of appliance health scores" role="img"></canvas>
+      </div>
+      <div class="legend">
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--good)"></span>Good (3)</span>
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--warning)"></span>Fair (2)</span>
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--critical)"></span>Poor (1)</span>
+      </div>
+    </div>
+    <footer class="card__foot">A score of 1 means the appliance is drawing well away from its rated current and needs inspection.</footer>
+  </section>
+
+  <section class="card">
+    <header class="card__head">
+      <h2>Detail</h2>
+      <span class="badge badge--accent">{{ icon('gauge') }}
+        {% if snapshot.overall_health is not none %}{{ snapshot.overall_health }}% overall{% else %}No score{% endif %}
+      </span>
+    </header>
+    <div class="table-wrap">
+      <table class="data">
+        <caption class="visually-hidden">Health score and latest readings for every appliance</caption>
+        <thead>
+          <tr><th scope="col">Appliance</th><th scope="col">State</th><th scope="col">Condition</th><th scope="col">Latest reading</th></tr>
+        </thead>
+        <tbody>
+          {% for a in snapshot.appliances %}
+            <tr>
+              <th scope="row">{{ a.label }}</th>
+              <td><span class="badge {{ 'badge--good' if a.is_on }}">{{ a.power_label }}</span></td>
+              <td>
+                <span class="row" style="gap:6px">
+                  <span class="dot dot--{{ a.health_status }}"></span>{{ a.health_label }}
+                  {% if a.health %}<span class="muted small">({{ a.health }}/3)</span>{% endif %}
+                </span>
+              </td>
+              <td class="num">
+                {% for reading in a.readings %}
+                  {{ '%g' | format(reading.value) }}{{ ' °C' if reading.metric == 'temperature' else ' mA' }}{{ ', ' if not loop.last }}
+                {% else %}<span class="muted">No reading</span>{% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% else %}
+  <div class="card"><div class="empty">{{ icon('heart') }}<h3>Nothing to report</h3>
+    <p>No appliances are configured for this account yet.</p></div></div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script id="health-data" type="application/json">{{ data | tojson }}</script>
+<script>GridWatch.healthChart('health-chart', 'health-data');</script>
+{% endblock %}

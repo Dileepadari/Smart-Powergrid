@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% from "partials/appliance_card.html" import appliance_card %}
+{% from "partials/source_badge.html" import source_badge %}
+
+{% block title %}Dashboard - GridWatch{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+
+{% block topbar_extra %}
+  <button class="btn btn--sm" type="button" data-refresh>{{ icon('refresh') }}Refresh</button>
+{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div class="page-head__text">
+    <h1>Welcome back, {{ user['username'] }}</h1>
+    <p>Control your appliances and watch the grid respond.</p>
+  </div>
+  <div class="row">{{ source_badge(snapshot) }}</div>
+</div>
+
+<section class="grid grid--stats" aria-label="Grid summary">
+  <div class="stat">
+    <span class="stat__label">{{ icon('power') }}Appliances on</span>
+    <span class="stat__value" data-stat="active">{{ snapshot.active_count }}<span class="unit">of {{ snapshot.appliances | length }}</span></span>
+    <span class="stat__note">Switched on right now</span>
+  </div>
+  <div class="stat">
+    <span class="stat__label">{{ icon('bolt') }}Total draw</span>
+    <span class="stat__value" data-stat="current">{{ '%g' | format(snapshot.total_current) }}<span class="unit">mA</span></span>
+    <span class="stat__note">Sum of the latest current readings</span>
+  </div>
+  <div class="stat">
+    <span class="stat__label">{{ icon('gauge') }}System health</span>
+    <span class="stat__value" data-stat="health">
+      {% if snapshot.overall_health is not none %}{{ snapshot.overall_health }}<span class="unit">%</span>{% else %}--{% endif %}
+    </span>
+    <span class="stat__note">Mean of every appliance score</span>
+  </div>
+  <div class="stat">
+    <span class="stat__label">{{ icon('clock') }}Last reading</span>
+    <span class="stat__value small" style="font-size:1.05rem" data-stat="updated"
+          data-timestamp="{{ snapshot.updated_at or '' }}">{{ snapshot.updated_at or 'Never' }}</span>
+    <span class="stat__note">Channel {{ snapshot.channel.get('id') or 'not configured' }}</span>
+  </div>
+</section>
+
+<h2 style="margin:30px 0 14px">Appliance controls</h2>
+
+{% if snapshot.appliances %}
+  <section class="grid grid--cards" id="appliances">
+    {% for a in snapshot.appliances %}{{ appliance_card(a) }}{% endfor %}
+  </section>
+{% else %}
+  <div class="card">
+    <div class="empty">
+      {{ icon('plug') }}
+      <h3>No appliances yet</h3>
+      <p>Add your ThingSpeak channel and appliance list from the profile page and they will show up here.</p>
+      <a class="btn btn--primary" href="{{ url_for('main.profile') }}">Open profile</a>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "auth/base.html" %}
+{% block title %}Create an account - GridWatch{% endblock %}
+
+{% block form %}
+<h1>Create an account</h1>
+<p class="muted" style="margin:6px 0 22px">Channel details are optional and can be added later from your profile.</p>
+
+<form method="post" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="field">
+    <label for="username">Username</label>
+    <input class="input" id="username" name="username" value="{{ form.username }}" required autofocus autocomplete="username">
+  </div>
+  <div class="field">
+    <label for="email">Email address</label>
+    <input class="input" id="email" name="email" type="email" value="{{ form.email }}" required autocomplete="email">
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="password">Password</label>
+      <input class="input" id="password" name="password" type="password" minlength="8" required autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label for="confirm">Confirm password</label>
+      <input class="input" id="confirm" name="confirm" type="password" minlength="8" required autocomplete="new-password">
+    </div>
+  </div>
+  <div class="field">
+    <label for="channel_id">ThingSpeak channel ID <span class="muted">(optional)</span></label>
+    <input class="input" id="channel_id" name="channel_id" value="{{ form.channel_id }}" inputmode="numeric">
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="read_api_key">Read API key <span class="muted">(optional)</span></label>
+      <input class="input" id="read_api_key" name="read_api_key" value="{{ form.read_api_key }}" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="write_api_key">Write API key <span class="muted">(optional)</span></label>
+      <input class="input" id="write_api_key" name="write_api_key" value="{{ form.write_api_key }}" autocomplete="off">
+    </div>
+  </div>
+  <button class="btn btn--primary btn--block" type="submit">Create account</button>
+</form>
+
+<p class="small muted" style="margin-top:16px">
+  Already registered? <a href="{{ url_for('auth.login') }}">Sign in</a>.
+</p>
+{% endblock %}

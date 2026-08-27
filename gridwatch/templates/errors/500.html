@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}Something went wrong - GridWatch{% endblock %}
+{% block heading %}500{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="empty">
+    {{ icon('alert-circle') }}
+    <h3>Something went wrong</h3>
+    <p>The server hit an error handling that request. The details are in the application log.</p>
+    <a class="btn btn--primary" href="{{ url_for('main.dashboard') }}">Back to the dashboard</a>
+  </div>
+</div>
+{% endblock %}
