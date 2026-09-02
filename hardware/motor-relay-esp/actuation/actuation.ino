@@ -4,6 +4,7 @@
 #include <ThingSpeak.h>
 #include <WiFiClient.h>
 #include "RelayModule.h"
+#include "secrets.h"  // untracked, copy from secrets.example.h
 
 unsigned long user1_channel=2165368;
 unsigned long user2_channel=2165370;
@@ -50,8 +51,8 @@ String u1Status, u2Status;
 void loop()
 {
 //  server.handleClient();   
- u1Status=ThingSpeak.readStringField(user1_channel, 6, "EFISS04IFA6364N9"); //(channelid, field number, read apikey)
- u2Status=ThingSpeak.readStringField(user2_channel, 7, "D3LNELVJ4YHFILVP"); //(channelid, field number, read apikey)
+ u1Status=ThingSpeak.readStringField(user1_channel, 6, SECRET_TS_USER1_READ_KEY); //(channelid, field number, read apikey)
+ u2Status=ThingSpeak.readStringField(user2_channel, 7, SECRET_TS_USER2_READ_KEY); //(channelid, field number, read apikey)
  int statusCode = ThingSpeak.getLastReadStatus();
   Serial.println(statusCode);
  Serial.print("1) ");

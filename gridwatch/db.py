@@ -6,6 +6,7 @@ services can use attribute-style keys instead of positional indexes.
 
 from __future__ import annotations
 
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Iterable, Sequence
@@ -58,6 +59,8 @@ def init_db() -> None:
 
 # The demo accounts that ship with the project. Passwords are hashed on insert;
 # the plaintext lives here only so a fresh checkout has something to log in with.
+# ThingSpeak keys come from the environment. Left unset, the demo users seed
+# without channel access and the dashboard falls back to simulated telemetry.
 DEMO_USERS: tuple[dict[str, Any], ...] = (
     {
         "id": 12234,
@@ -67,8 +70,8 @@ DEMO_USERS: tuple[dict[str, Any], ...] = (
         "role": "resident",
         "channel_id": "2165368",
         "status_field": 6,
-        "read_api_key": "EFISS04IFA6364N9",
-        "write_api_key": "899FMRYW1H2FPCNJ",
+        "read_api_key": os.environ.get("GRIDWATCH_DEMO1_READ_KEY", ""),
+        "write_api_key": os.environ.get("GRIDWATCH_DEMO1_WRITE_KEY", ""),
         "priority": "Motor_1,Motor_2,LED_1,LED2",
     },
     {
@@ -79,8 +82,8 @@ DEMO_USERS: tuple[dict[str, Any], ...] = (
         "role": "resident",
         "channel_id": "2165370",
         "status_field": 7,
-        "read_api_key": "D3LNELVJ4YHFILVP",
-        "write_api_key": "RLEHO8H1Z8C0I48Y",
+        "read_api_key": os.environ.get("GRIDWATCH_DEMO2_READ_KEY", ""),
+        "write_api_key": os.environ.get("GRIDWATCH_DEMO2_WRITE_KEY", ""),
         "priority": "Motor_1,Motor_2,LED_1,Buzzer_1",
     },
     {
@@ -91,8 +94,8 @@ DEMO_USERS: tuple[dict[str, Any], ...] = (
         "role": "admin",
         "channel_id": "2165368",
         "status_field": 6,
-        "read_api_key": "EFISS04IFA6364N9",
-        "write_api_key": "899FMRYW1H2FPCNJ",
+        "read_api_key": os.environ.get("GRIDWATCH_DEMO1_READ_KEY", ""),
+        "write_api_key": os.environ.get("GRIDWATCH_DEMO1_WRITE_KEY", ""),
         "priority": "",
     },
 )

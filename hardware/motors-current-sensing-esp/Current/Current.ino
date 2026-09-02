@@ -9,6 +9,7 @@
 #include <HTTPClient.h>
 #include "HealthMonitor.h"
 #include <cJSON.h>
+#include "secrets.h"  // untracked, copy from secrets.example.h
 // #include <ArduinoJson.h>
 
 void OM2M_Post(String appliance_id, String user_status,float current, int helth, char motor_number);
@@ -19,13 +20,13 @@ char* passwd="DILEEPPRASANTHi";
 long Channel_ID_1 = 2165368;
 long Channel_ID_2 = 2165370;
 
-String API_key1 = "899FMRYW1H2FPCNJ";
-String API_key2 = "RLEHO8H1Z8C0I48Y";
+String API_key1 = SECRET_TS_USER1_WRITE_KEY;
+String API_key2 = SECRET_TS_USER2_WRITE_KEY;
 
 
-String Client_ID = "CzYeCTwuJTkIHg0GITswBSo";
-String mqttPass = "CzYeCTwuJTkIHg0GITswBSo";
-String mqttUser = "dLNq6KNxZKZA6tU8dm3uDnTV";
+String Client_ID = SECRET_TS_MQTT_USER;
+String mqttPass = SECRET_TS_MQTT_USER;
+String mqttUser = SECRET_TS_MQTT_PASS;
 
 
 //OM2M IMPLEMENTATION
@@ -84,8 +85,8 @@ HealthMonitor u2m2health(0);
 int User1motorpref;
 int User2motorpref;
 
-User user1("CzYeCTwuJTkIHg0GITswBSo","dLNq6KNxZKZA6tU8dm3uDnTV",Channel_ID_1,"899FMRYW1H2FPCNJ","EFISS04IFA6364N9");
-User user2("CzYeCTwuJTkIHg0GITswBSo","dLNq6KNxZKZA6tU8dm3uDnTV",Channel_ID_2,"RLEHO8H1Z8C0I48Y","D3LNELVJ4YHFILVP");
+User user1(SECRET_TS_MQTT_USER,SECRET_TS_MQTT_PASS,Channel_ID_1,SECRET_TS_USER1_WRITE_KEY,SECRET_TS_USER1_READ_KEY);
+User user2(SECRET_TS_MQTT_USER,SECRET_TS_MQTT_PASS,Channel_ID_2,SECRET_TS_USER2_WRITE_KEY,SECRET_TS_USER2_READ_KEY);
 
 //Resident_1: LED 1, LED 2, MOTOR 1, MOTOR 2
 //Resident_2: LED 3, BUZZER, MOTOR 3, MOTOR 4
@@ -141,8 +142,8 @@ int helths[4];
 
 void loop() { 
 
-  u1Status=ThingSpeak.readStringField(Channel_ID_1, 6, "EFISS04IFA6364N9"); //(channelid, field number, read apikey)
-  u2Status=ThingSpeak.readStringField(Channel_ID_2, 7, "D3LNELVJ4YHFILVP"); //(channelid, field number, read apikey)
+  u1Status=ThingSpeak.readStringField(Channel_ID_1, 6, SECRET_TS_USER1_READ_KEY); //(channelid, field number, read apikey)
+  u2Status=ThingSpeak.readStringField(Channel_ID_2, 7, SECRET_TS_USER2_READ_KEY); //(channelid, field number, read apikey)
   Serial.println(ThingSpeak.getLastReadStatus());
   Serial.print("1) ");
   Serial.println(u1Status);

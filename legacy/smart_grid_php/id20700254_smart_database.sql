@@ -385,9 +385,9 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userid`, `username`, `email`, `password`, `user_type`, `channel_id`, `field_no`, `Read_Api`, `Write_Api`, `date`, `priority`) VALUES
-(12234, 'Resident1', 'Resident1@students.iiit.ac.in', 'password1', 'resident', '2165368', 6, 'EFISS04IFA6364N9', '899FMRYW1H2FPCNJ', '2023-05-27', '12'),
-(23345, 'Resident2', 'Resident2@students.iiit.ac.in', 'password2', 'resident', '2165370', 7, 'D3LNELVJ4YHFILVP', 'RLEHO8H1Z8C0I48Y', '2023-05-27', '21'),
-(91507, 'admin', 'admin@students.iiit.ac.in', 'admin', 'admin', '2165368,2165370', 13, 'EFISS04IFA6364N9,D3LNELVJ4YHFILVP', '899FMRYW1H2FPCNJ,RLEHO8H1Z8C0I48Y', '2023-05-29', '1234');
+(12234, 'Resident1', 'Resident1@students.iiit.ac.in', 'password1', 'resident', '2165368', 6, 'REDACTED_THINGSPEAK_KEY', 'REDACTED_THINGSPEAK_KEY', '2023-05-27', '12'),
+(23345, 'Resident2', 'Resident2@students.iiit.ac.in', 'password2', 'resident', '2165370', 7, 'REDACTED_THINGSPEAK_KEY', 'REDACTED_THINGSPEAK_KEY', '2023-05-27', '21'),
+(91507, 'admin', 'admin@students.iiit.ac.in', 'admin', 'admin', '2165368,2165370', 13, 'REDACTED_THINGSPEAK_KEY,REDACTED_THINGSPEAK_KEY', 'REDACTED_THINGSPEAK_KEY,REDACTED_THINGSPEAK_KEY', '2023-05-29', '1234');
 
 --
 -- Indexes for dumped tables

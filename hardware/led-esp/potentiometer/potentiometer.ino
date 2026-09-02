@@ -13,6 +13,7 @@
 #include "CurrentSensor.h"
 #include "User.h"
 #include "HealthMonitor.h"
+#include "secrets.h"  // untracked, copy from secrets.example.h
 
 
 
@@ -97,8 +98,8 @@ RelayModule p27(27);
 String u1Status;
 String u2Status;
 float minCurrent_led = 10.0;
-User user1("CzYeCTwuJTkIHg0GITswBSo","dLNq6KNxZKZA6tU8dm3uDnTV",user1_channel,"899FMRYW1H2FPCNJ","EFISS04IFA6364N9");
-User user2("CzYeCTwuJTkIHg0GITswBSo","dLNq6KNxZKZA6tU8dm3uDnTV",user2_channel,"RLEHO8H1Z8C0I48Y","D3LNELVJ4YHFILVP");
+User user1(SECRET_TS_MQTT_USER,SECRET_TS_MQTT_PASS,user1_channel,SECRET_TS_USER1_WRITE_KEY,SECRET_TS_USER1_READ_KEY);
+User user2(SECRET_TS_MQTT_USER,SECRET_TS_MQTT_PASS,user2_channel,SECRET_TS_USER2_WRITE_KEY,SECRET_TS_USER2_READ_KEY);
 
 String OM2M(String res) {
   http.begin("http://" + String() + CSE_IP + ":" + String() + CSE_PORT + String()+ OM2M_MN + String() + OM2M_AE + String() + res + "/la"); //Specify the URL
@@ -149,8 +150,8 @@ void loop() {
 
 
     
-  u1Status=ThingSpeak.readStringField(user1_channel, 6, "EFISS04IFA6364N9"); //(channelid, field number, read apikey)
-  u2Status=ThingSpeak.readStringField(user2_channel, 7, "D3LNELVJ4YHFILVP"); //(channelid, field number, read apikey)
+  u1Status=ThingSpeak.readStringField(user1_channel, 6, SECRET_TS_USER1_READ_KEY); //(channelid, field number, read apikey)
+  u2Status=ThingSpeak.readStringField(user2_channel, 7, SECRET_TS_USER2_READ_KEY); //(channelid, field number, read apikey)
 
 
 String jsonDoc = "{\"user\":\"Resident1\", \"key\":\"1234\"}";
@@ -553,5 +554,5 @@ if(u2Current_LED > 24){
 // CurrentSensor u2m2Sensor(0, 0, Motor, ON);
 
 
-//User user1("CzYeCTwuJTkIHg0GITswBSo","dLNq6KNxZKZA6tU8dm3uDnTV",user1_channel,"899FMRYW1H2FPCNJ");
+//User user1(SECRET_TS_MQTT_USER,SECRET_TS_MQTT_PASS,user1_channel,SECRET_TS_USER1_WRITE_KEY);
 //PubSubClient mqttClient(server,18/83,client)

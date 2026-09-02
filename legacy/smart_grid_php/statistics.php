@@ -44,7 +44,7 @@ $user_data = $login->check_login($_SESSION['IOT_userid']);
       </script>
             <iframe width="100%" height="240" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/';
             echo $user_data["channel_id"];
-            echo '/charts/'.$i.'?api_key=EFISS04IFA6364N9&width=auto&color=00FFFF&results=10"></iframe></div>';
+            echo '/charts/'.$i.'?api_key=REDACTED_THINGSPEAK_KEY&width=auto&color=00FFFF&results=10"></iframe></div>';
         }
     ?>
     </div>

@@ -42,3 +42,7 @@ Thumbs.db
 *.orig
 *.rej
 *.bak
+
+# Firmware credentials, copy from hardware/secrets.example.h
+hardware/**/secrets.h
+secrets.h
