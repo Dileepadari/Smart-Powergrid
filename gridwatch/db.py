@@ -8,8 +8,9 @@ from __future__ import annotations
 
 import os
 import sqlite3
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 import click
 from flask import Flask, current_app, g

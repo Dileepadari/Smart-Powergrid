@@ -1,5 +1,7 @@
 """The packed status encoding is the contract with the firmware, so pin it down."""
 
+import pytest
+
 from gridwatch.services.appliances import (
     Appliance,
     apply_control,
@@ -11,8 +13,6 @@ from gridwatch.services.appliances import (
     overall_health,
     parse_names,
 )
-
-import pytest
 
 
 def test_parse_names_handles_om2m_list_spelling():

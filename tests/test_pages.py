@@ -84,8 +84,9 @@ def test_profile_saves_channel_settings(client, auth, app):
 
 
 def test_password_change_requires_the_current_password(client, auth, app):
-    from gridwatch import db
     from werkzeug.security import check_password_hash
+
+    from gridwatch import db
 
     auth.login()
     client.post(

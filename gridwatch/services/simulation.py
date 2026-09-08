@@ -57,7 +57,7 @@ def health_for(appliance, seed: str = "") -> int:
     """A 1-3 health score consistent with the appliance's simulated draw."""
     if not appliance.power:
         return 3
-    off, on = NOMINAL_CURRENT[appliance.kind]
+    _off, on = NOMINAL_CURRENT[appliance.kind]
     expected = on * SPEED_FACTOR.get(appliance.speed, 1.0)
     actual = current_for(appliance, seed)
     if expected <= 0:

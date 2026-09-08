@@ -5,11 +5,10 @@ from __future__ import annotations
 import functools
 import re
 import secrets
-from typing import Callable
+from collections.abc import Callable
 
 from flask import (
     Blueprint,
-    current_app,
     flash,
     g,
     redirect,

@@ -1,3 +1,5 @@
+<!-- Generated from README.md by scripts/build_light_readme.py. Do not edit by hand. -->
+
 <div align="center">
 
 <picture>
@@ -21,7 +23,7 @@
 
 **[Developer documentation](./DEVDOC.md)** · [Features](#features) · [Running it](#running-it)
 
-<p><b>Dark mode</b> · <a href="./README-light.md">View this page in light mode</a></p>
+<p><b>Light mode</b> · <a href="./README.md">View this page in dark mode</a></p>
 
 </div>
 
@@ -70,34 +72,34 @@ possible power theft" something the app can say on its own.
 ## Screenshots
 
 Every image is a real 1440x900 viewport render against the seeded demo account.
-This page shows **dark mode**; the same gallery in light mode is at **[README-light.md](./README-light.md)**.
+This page shows **light mode**; the same gallery in dark mode is at **[README.md](./README.md)**.
 
 <table>
   <tr>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/01-dashboard.png" alt="Dashboard with appliance controls, total draw and system health" loading="lazy">
+      <img src="./docs/screenshots/light/01-dashboard.png" alt="Dashboard with appliance controls, total draw and system health" loading="lazy">
       <p align="center"><b>Dashboard</b><br><sub>Live controls for power, speed and direction per appliance.</sub></p>
     </td>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/02-health.png" alt="Appliance health scores as a bar chart with a detail table" loading="lazy">
+      <img src="./docs/screenshots/light/02-health.png" alt="Appliance health scores as a bar chart with a detail table" loading="lazy">
       <p align="center"><b>Health</b><br><sub>Condition scored from draw against rated draw.</sub></p>
     </td>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/03-statistics.png" alt="Current draw over time for every appliance" loading="lazy">
+      <img src="./docs/screenshots/light/03-statistics.png" alt="Current draw over time for every appliance" loading="lazy">
       <p align="center"><b>Statistics</b><br><sub>Current over time, with min, max and mean per appliance.</sub></p>
     </td>
   </tr>
   <tr>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/05-notifications.png" alt="Alerts including a critical possible power theft warning" loading="lazy">
+      <img src="./docs/screenshots/light/05-notifications.png" alt="Alerts including a critical possible power theft warning" loading="lazy">
       <p align="center"><b>Notifications</b><br><sub>Raised automatically when an appliance drifts from its rating.</sub></p>
     </td>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/04-circuits.png" alt="Circuit layout with the controller behind each appliance" loading="lazy">
+      <img src="./docs/screenshots/light/04-circuits.png" alt="Circuit layout with the controller behind each appliance" loading="lazy">
       <p align="center"><b>Circuits</b><br><sub>What drives what, and where the firmware lives.</sub></p>
     </td>
     <td width="33%" valign="top">
-      <img src="./docs/screenshots/dark/06-profile.png" alt="Profile with channel settings and load-shedding order" loading="lazy">
+      <img src="./docs/screenshots/light/06-profile.png" alt="Profile with channel settings and load-shedding order" loading="lazy">
       <p align="center"><b>Profile</b><br><sub>Channel, API keys and the load-shedding order.</sub></p>
     </td>
   </tr>
@@ -110,15 +112,15 @@ Each image is a single render at that exact viewport, not a scaled-down desktop 
 <table>
   <tr>
     <td width="28%" valign="top">
-      <img src="./docs/screenshots/responsive/dark/mobile-dashboard.png" alt="Dashboard on a 390x844 phone viewport" loading="lazy">
+      <img src="./docs/screenshots/responsive/light/mobile-dashboard.png" alt="Dashboard on a 390x844 phone viewport" loading="lazy">
       <p align="center"><b>Phone, 390x844</b><br><sub>The sidebar collapses behind a menu button.</sub></p>
     </td>
     <td width="28%" valign="top">
-      <img src="./docs/screenshots/responsive/dark/mobile-health.png" alt="Health chart on a phone viewport" loading="lazy">
+      <img src="./docs/screenshots/responsive/light/mobile-health.png" alt="Health chart on a phone viewport" loading="lazy">
       <p align="center"><b>Phone, Health</b><br><sub>The chart keeps its axis labels at full width.</sub></p>
     </td>
     <td width="44%" valign="top">
-      <img src="./docs/screenshots/responsive/dark/tablet-statistics.png" alt="Statistics on an 820x950 tablet viewport" loading="lazy">
+      <img src="./docs/screenshots/responsive/light/tablet-statistics.png" alt="Statistics on an 820x950 tablet viewport" loading="lazy">
       <p align="center"><b>Tablet, 820x950</b><br><sub>The table keeps every column; nothing is dropped.</sub></p>
     </td>
   </tr>

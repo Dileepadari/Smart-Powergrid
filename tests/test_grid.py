@@ -67,7 +67,7 @@ def test_send_command_persists_state_even_when_no_transport_accepts_it(app, monk
 
     with app.app_context():
         user = db.query_one("SELECT * FROM users WHERE id = 12234")
-        snapshot, delivered, refused = grid.send_command(user, "Motor_1", "power", 1)
+        _snapshot, delivered, refused = grid.send_command(user, "Motor_1", "power", 1)
         assert delivered == []
         assert len(refused) == 2
 

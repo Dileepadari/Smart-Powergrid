@@ -17,3 +17,12 @@ passwords in plain text, and has API keys committed in the source.
 
 H2 database files from the OM2M gateway the ESP boards published to. Useful only
 if you want to bring that gateway back up.
+
+**These files are no longer tracked.** `indb.mv.db` held the ThingSpeak read and
+write API keys and the demo passwords in plain text. It survived the pass that
+took those keys out of the source because it is a binary file and neither
+`grep` nor a secret scanner looks inside one. They are gitignored now.
+
+They are still in git history and on the machine that produced them, so nothing
+is lost. **The keys they contain must be treated as public and rotated at
+ThingSpeak**, since they were in a public repository.

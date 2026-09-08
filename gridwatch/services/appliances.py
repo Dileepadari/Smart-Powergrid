@@ -12,8 +12,8 @@ the encoding is defined in exactly one place.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from typing import Iterable, Sequence
 
 POWER_LABELS = {0: "Off", 1: "On"}
 SPEED_LABELS = {0: "Low", 1: "Medium", 2: "High"}

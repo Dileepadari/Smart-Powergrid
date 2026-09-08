@@ -46,3 +46,10 @@ Thumbs.db
 # Firmware credentials, copy from hardware/secrets.example.h
 hardware/**/secrets.h
 secrets.h
+
+# H2 database files from the archived OM2M gateway. These were tracked and the
+# .mv.db held the ThingSpeak read and write keys plus the demo passwords in
+# plain text, which no text scanner catches because the file is binary. They
+# stay out of the repository; the data is still in git history and on the
+# machine that produced it.
+legacy/om2m-database/*.db

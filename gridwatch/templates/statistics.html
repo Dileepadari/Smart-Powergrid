@@ -9,7 +9,10 @@
 <div class="page-head">
   <div class="page-head__text">
     <h1>Current draw over time</h1>
-    <p>The most recent readings for every appliance on channel {{ snapshot.channel.get('id') or 'not configured' }}.</p>
+    {# The channel clause is dropped rather than defaulted: "on channel not
+       configured." is not a sentence. The dashboard's "Channel {id}" stat can
+       use the fallback because it reads correctly as a label. #}
+    <p>The most recent readings for every appliance{% if snapshot.channel.get('id') %} on channel {{ snapshot.channel.get('id') }}{% endif %}.</p>
   </div>
   <div class="row">{{ source_badge(snapshot) }}</div>
 </div>

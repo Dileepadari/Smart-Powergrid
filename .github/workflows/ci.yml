@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint and test
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: ruff check .
+
+      # The suite uses a temporary SQLite file and stubs ThingSpeak, so it never
+      # touches a real channel or needs a network.
+      - name: Tests
+        run: pytest -q
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # Audits requirements.txt rather than the installed set, so a dev-only
+      # advisory cannot fail an unrelated change while a runtime one still does.
+      - name: Audit runtime dependencies
+        run: pip-audit -r requirements.txt
+
+  secrets:
+    name: No credentials in the tree
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # This repository has had ThingSpeak channel keys and MQTT credentials
+      # committed before. They are out of the source now and read from the
+      # environment, and this keeps them out.
+      - name: Look for ThingSpeak keys and MQTT credentials
+        run: |
+          if git grep -nEI '(api_key|API_KEY|mqtt_(user|pass)|MQTT_(USERNAME|PASSWORD))[[:space:]]*=[[:space:]]*["'"'"'][A-Za-z0-9]{12,}' -- \
+               ':!*.md' ':!.github/*' ; then
+            echo "A credential-shaped literal is present. Move it to the environment."
+            exit 1
+          fi
+          echo "No credential-shaped literals found."
+
+      # A binary blob is where a secret hides from grep. legacy/om2m-database
+      # held the ThingSpeak keys in an H2 file for exactly that reason.
+      - name: No database blobs tracked
+        run: |
+          if git ls-files | grep -E '\.(mv\.db|trace\.db|sqlite3?|db)$' ; then
+            echo "A database file is tracked. Those hide credentials from every text scanner."
+            exit 1
+          fi
+          echo "No tracked database files."
