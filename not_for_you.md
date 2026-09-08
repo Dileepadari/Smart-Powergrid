@@ -46,6 +46,22 @@ That line appears **twice** in `simulation.py`. In `current_for` the `off` value
 
 Caught immediately because the suite runs in 13 seconds. The fix was to edit by line number after asserting the line's content. The lesson is the ordinary one: a textual replace over a whole file needs to be unique or anchored, and "it's just renaming an unused variable" is precisely when you stop checking.
 
+## `pytest` did not work, only `python -m pytest`
+
+Caught by CI, not locally, because I had been running `python -m pytest` all along.
+
+`python -m pytest` puts the working directory on `sys.path`; a bare `pytest`
+does not. So `from gridwatch import create_app` in `tests/conftest.py` raised
+`ModuleNotFoundError` for anyone who typed the command most people type. DEVDOC
+happened to document the `python -m` form, which is why nobody had hit it.
+
+Fixed with a `pytest.ini` setting `pythonpath = .`, so both invocations work.
+Fixing it in the repository beats special-casing the CI command, since the
+person it actually bites is a new contributor running `pytest`.
+
+Worth noting as a habit: **running a suite the convenient way can hide that the
+documented way is broken.** CI running the bare command is what surfaced it.
+
 ## Notes
 
 - `run.py` defaults to `GRIDWATCH_DEBUG=1`. That looks alarming but is correct: it is the documented development entry point, binds to `127.0.0.1`, and its docstring says to serve `gridwatch:create_app()` behind a real WSGI server in production. Left alone.

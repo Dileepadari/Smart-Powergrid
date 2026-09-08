@@ -251,7 +251,7 @@ development server and is not meant for it.
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest tests -q
+.venv/bin/pytest -q          # or: .venv/bin/python -m pytest tests -q
 ```
 
 48 tests, no network access: the `app` fixture stubs `thingspeak.read_feeds` and
